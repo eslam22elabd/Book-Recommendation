@@ -1,12 +1,12 @@
 import json
-import google.generativeai as genai
+from google import genai
 from typing import Optional, Dict, Any
-from src.core.config import settings
+from core.config import settings
 
 class GeminiService:
     def __init__(self):
-        genai.configure(api_key=settings.API_KEY)
-        self.model = genai.GenerativeModel(settings.GEMINI_MODEL)
+        self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
+        self.model_id = settings.GEMINI_MODEL
 
     def _generate_classification_prompt(self, query: str) -> str:
         return f"""
@@ -22,7 +22,9 @@ class GeminiService:
 
         Instructions:
         1. Correct potential typos or spelling errors.
-        2. Return ONLY a JSON object.
+        2. Assign exactly one of the categories: IT, Engineering, The law, Biology, Medicine.
+        3. Assign a subcategory ONLY from those listed. If none fit perfectly, leave it empty.
+        4. Return ONLY a valid JSON object. No markdown, no extra text.
         
         Query: "{query}"
 
@@ -46,7 +48,10 @@ class GeminiService:
     def classify_query(self, query: str) -> Dict[str, Any]:
         prompt = self._generate_classification_prompt(query)
         try:
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt
+            )
             text = response.text
             # Extract JSON
             json_start = text.find('{')
@@ -60,7 +65,10 @@ class GeminiService:
     def get_book_description(self, book_title: str, category: str, subcategory: str = "") -> str:
         prompt = self._generate_description_prompt(book_title, category, subcategory)
         try:
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt
+            )
             return response.text.strip()
         except Exception:
             pass

@@ -30,19 +30,21 @@ A professional, modular, and AI-powered book recommendation engine built with **
 git clone <repo-url>
 cd Book-Recommendation
 
-# Install dependencies
+# Install dependencies from src folder
 pip install -r src/requirements.txt
 ```
 
 ### 3. Configuration
-Create a `.env` file in the root directory:
+Create a `.env` file in the **root** directory (Book-Recommendation/):
 ```env
 API_KEY=your_gemini_api_key_here
 ```
 
 ### 4. Running the API
+Move into the `src/` directory and run:
 ```bash
-python -m uvicorn src.main:app --reload
+cd src
+python -m uvicorn main:app --reload
 ```
 The API will be available at `http://localhost:8000`.
 

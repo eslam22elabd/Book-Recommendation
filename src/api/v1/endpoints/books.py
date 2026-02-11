@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from src.schemas.book import Query, BookResponse, Book
-from src.services.gemini_service import gemini_service
-from src.services.book_service import BookService
-from src.services.data import default_fallback_books
+from schemas.book import Query, BookResponse, Book
+from services.gemini_service import gemini_service
+from services.book_service import BookService
+from services.data import default_fallback_books
 
 router = APIRouter()
 

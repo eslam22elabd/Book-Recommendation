@@ -210,6 +210,7 @@ books_by_category = {
 # Keywords with precise subcategories
 category_keywords = {
     'IT': {
+        'general': ['it', 'computer science', 'it books', 'programming', 'برمجة', 'تكنولوجيا المعلومات'],
         'machine_learning': ['machine learning', 'deep learning', 'neural networks', 'تعلم الآلة', 'ذكاء اصطناعي'],
         'python': ['python', 'برمجة بايثون', 'Learning Python', 'Fluent Python'],
         'deep_learning': ['deep learning', 'neural networks', 'شبكات عصبية'],

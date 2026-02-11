@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     
     # Gemini Configuration
-    API_KEY: str
+    GEMINI_API_KEY: str
     GEMINI_MODEL: str = "gemini-1.5-flash"
     
     # Google Books API

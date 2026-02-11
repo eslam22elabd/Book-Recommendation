@@ -1,8 +1,8 @@
 import requests
 from typing import List, Dict, Any, Tuple
-from src.core.config import settings
-from src.services.data import books_by_category, book_prices, category_keywords
-from src.schemas.book import Book
+from core.config import settings
+from services.data import books_by_category, book_prices, category_keywords
+from schemas.book import Book
 
 class BookService:
     @staticmethod
@@ -45,12 +45,20 @@ class BookService:
     @staticmethod
     def classify_locally(query: str) -> Tuple[str, str]:
         """Fall back to local classification if Gemini fails"""
-        query_lower = query.lower()
+        query_words = query.lower().split()
+        
+        # 1. Check for specific keywords in subcategories
         for category, subcategories in category_keywords.items():
             for subcategory, keywords in subcategories.items():
                 for keyword in keywords:
-                    if keyword in query_lower:
+                    if keyword.lower() in query.lower():
                         return category, subcategory
+        
+        # 2. Check for main category name match
+        for category in category_keywords.keys():
+            if category.lower() in query.lower().split():
+                return category, ""
+                
         return "Unknown", ""
 
     @staticmethod
